@@ -1,0 +1,9 @@
+apply plugin: 'war'
+
+dependencies {
+    compile project(':dao')
+    compile "org.springframework:spring-webmvc:$springVersion",
+            "org.springframework:spring-aop:$springVersion"
+    providedCompile "org.apache.tomcat:tomcat-servlet-api:$tomcatVersion"
+
+}

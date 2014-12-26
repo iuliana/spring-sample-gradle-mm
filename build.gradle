@@ -1,0 +1,66 @@
+ext {
+    springVersion = '4.1.3.RELEASE'
+    junitVersion = '4.12'
+    slf4jVersion = '1.7.9'
+    tomcatVersion = '8.0.15'
+    aspectjVersion = '1.8.4'
+    hibernateVersion = '4.3.7.Final'
+    jodaVersion = '2.6'
+    tilesVersion = '3.0.5'
+    springSecurityVersion = '3.2.5.RELEASE'
+    hibernateHbm2ddlAuto = 'create'
+    hibernateShowSql = 'true'
+    postgreSqlVersion = '9.1-901-1.jdbc4'
+    h2Version = '1.4.184'
+    log4jVersion = '1.2.17'
+}
+
+allprojects {
+    version = '1.0-SNAPSHOT'
+    group = 'com.sample'
+}
+
+subprojects {
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        all*.exclude group: "commons-logging", module: "commons-logging"
+    }
+
+    dependencies {
+        compile "com.h2database:h2:$h2Version",
+                "org.slf4j:slf4j-api:$slf4jVersion",
+                "org.slf4j:jcl-over-slf4j:$slf4jVersion",
+                "log4j:log4j:$log4jVersion",
+                "joda-time:joda-time:$jodaVersion",
+                "org.hibernate:hibernate-validator:5.1.3.Final"
+
+        runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
+
+//        providedCompile 'org.apache.tomcat:tomcat-servlet-api:8.0.15'
+//        compile 'org.springframework:spring-webmvc:4.1.3.RELEASE'
+        testCompile "junit:junit:$junitVersion",
+                "org.springframework:spring-test:$springVersion"
+    }
+}
+
+task allDeps << {
+    println "All Dependencies:"
+    allprojects.each { p ->
+        println()
+        println " $p.name ".center( 60, '*' )
+        println()
+        p.configurations.all.findAll { !it.allDependencies.empty }.each { c ->
+            println " ${c.name} ".center( 60, '-' )
+            c.allDependencies.each { dep ->
+                println "$dep.group:$dep.name:$dep.version"
+            }
+            println "-" * 60
+        }
+    }
+}

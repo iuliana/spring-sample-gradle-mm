@@ -1,0 +1,9 @@
+dependencies {
+    compile "org.hibernate:hibernate-ehcache:$hibernateVersion",
+            "org.hibernate:hibernate-entityManager:$hibernateVersion",
+            "org.hibernate:hibernate-core:$hibernateVersion",
+            "org.springframework:spring-jdbc:$springVersion",
+            "org.springframework:spring-orm:$springVersion",
+            "org.apache.openejb:commons-dbcp-all:1.3",
+            "postgres:postgres:$postgreSqlVersion"
+}
