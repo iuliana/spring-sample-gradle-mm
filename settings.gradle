@@ -1,8 +1,9 @@
-rootProject.name = 'sample-multi-module'
+rootProject.name = 'spring-sample-gradle-mm'
 
 include 'dao'
 include 'web'
 
+//we check if the modules have gradle configuration files
 rootProject.children.each { project ->
     project.buildFileName = "${project.name}.gradle"
     println('Project ' + project.name + " configuration file is " + project.buildFileName)
