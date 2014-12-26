@@ -1,3 +1,37 @@
+allprojects {
+    version = '1.0'
+    group = 'com.sample'
+}
+
+subprojects {
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        all*.exclude group: "commons-logging", module: "commons-logging"
+    }
+}
+
+task allDeps << {
+    println "All Dependencies:"
+    allprojects.each { p ->
+        println()
+        println " $p.name ".center(60, '*')
+        println()
+        p.configurations.all.findAll { !it.allDependencies.empty }.each { c ->
+            println " ${c.name} ".center(60, '-')
+            c.allDependencies.each { dep ->
+                println "$dep.group:$dep.name:$dep.version"
+            }
+            println "-" * 60
+        }
+    }
+}
+
 ext {
     springVersion = '4.1.3.RELEASE'
     webflowVersion = '2.4.1.RELEASE'
@@ -14,67 +48,40 @@ ext {
     postgreSqlVersion = '9.1-901-1.jdbc4'
     h2Version = '1.4.184'
     log4jVersion = '1.2.17'
-    
-    libs = [
-            h2:"com.h2database:h2:$h2Version",
-            slf4jApi: "org.slf4j:slf4j-api:$slf4jVersion",
-            slf4jJcl:"org.slf4j:jcl-over-slf4j:$slf4jVersion",
-            log4j:"log4j:log4j:$log4jVersion",
-            joda:"joda-time:joda-time:$jodaVersion",
-            hibernateValidator:"org.hibernate:hibernate-validator:5.1.3.Final",
-            sl4jLog4j: "org.slf4j:slf4j-log4j12:$slf4jVersion",
-            junit: "junit:junit:$junitVersion",
-            springTest: "org.springframework:spring-test:$springVersion",
-            hibernateEhcache: "org.hibernate:hibernate-ehcache:$hibernateVersion",
-            hibernateEm:"org.hibernate:hibernate-entitymanager:$hibernateVersion",
-            hibernateCore:"org.hibernate:hibernate-core:$hibernateVersion",
-            springJdbc: "org.springframework:spring-jdbc:$springVersion",
-            springOrm: "org.springframework:spring-orm:$springVersion",
-            dbcp:"org.apache.openejb:commons-dbcp-all:1.3",
-            postgres:"postgresql:postgresql:$postgreSqlVersion",
-            springWebmvc: "org.springframework:spring-webmvc:$springVersion",
-            springWebflow: "org.springframework.webflow:spring-webflow:$webflowVersion",
-            springAop: "org.springframework:spring-aop:$springVersion",
-            springContextSupport: "org.springframework:spring-context-support:$springVersion",
-            jstl:"javax.servlet:jstl:1.2",
-            springSecurityWeb:"org.springframework.security:spring-security-web:$springSecurityVersion",
-            springSecurityTaglibs:"org.springframework.security:spring-security-taglibs:$springSecurityVersion",
-            springSecurityConfig:"org.springframework.security:spring-security-config:$springSecurityVersion",
-            tilesJsp:"org.apache.tiles:tiles-jsp:$tilesVersion",
-            tilesReqApi:"org.apache.tiles:tiles-request-api:1.0.6"
+
+    misc = [
+            h2         : "com.h2database:h2:$h2Version",
+            slf4jApi   : "org.slf4j:slf4j-api:$slf4jVersion",
+            slf4jJcl   : "org.slf4j:jcl-over-slf4j:$slf4jVersion",
+            log4j      : "log4j:log4j:$log4jVersion",
+            joda       : "joda-time:joda-time:$jodaVersion",
+            sl4jLog4j  : "org.slf4j:slf4j-log4j12:$slf4jVersion",
+            junit      : "junit:junit:$junitVersion",
+            dbcp       : "org.apache.openejb:commons-dbcp-all:1.3",
+            postgres   : "postgresql:postgresql:$postgreSqlVersion",
+            jstl       : "javax.servlet:jstl:1.2",
+            tilesJsp   : "org.apache.tiles:tiles-jsp:$tilesVersion",
+            tilesReqApi: "org.apache.tiles:tiles-request-api:1.0.6"
     ]
-}
 
-allprojects {
-    version = '1.0-SNAPSHOT'
-    group = 'com.sample'
-}
+    hibernate = [
+            validator: "org.hibernate:hibernate-validator:5.1.3.Final",
+            ehcache  : "org.hibernate:hibernate-ehcache:$hibernateVersion",
+            em       : "org.hibernate:hibernate-entitymanager:$hibernateVersion",
+            core     : "org.hibernate:hibernate-core:$hibernateVersion",
+    ]
 
-subprojects {
-    apply plugin: 'java'
-    sourceCompatibility = 1.8
-    
-    repositories {
-        mavenCentral()
-    }
 
-    configurations {
-        all*.exclude group: "commons-logging", module: "commons-logging"
-    }
-}
-
-task allDeps << {
-    println "All Dependencies:"
-    allprojects.each { p ->
-        println()
-        println " $p.name ".center( 60, '*' )
-        println()
-        p.configurations.all.findAll { !it.allDependencies.empty }.each { c ->
-            println " ${c.name} ".center( 60, '-' )
-            c.allDependencies.each { dep ->
-                println "$dep.group:$dep.name:$dep.version"
-            }
-            println "-" * 60
-        }
-    }
+    spring = [
+            test           : "org.springframework:spring-test:$springVersion",
+            webmvc         : "org.springframework:spring-webmvc:$springVersion",
+            webflow        : "org.springframework.webflow:spring-webflow:$webflowVersion",
+            aop            : "org.springframework:spring-aop:$springVersion",
+            jdbc           : "org.springframework:spring-jdbc:$springVersion",
+            orm            : "org.springframework:spring-orm:$springVersion",
+            contextSupport : "org.springframework:spring-context-support:$springVersion",
+            securityWeb    : "org.springframework.security:spring-security-web:$springSecurityVersion",
+            securityTaglibs: "org.springframework.security:spring-security-taglibs:$springSecurityVersion",
+            securityConfig : "org.springframework.security:spring-security-config:$springSecurityVersion"
+    ]
 }

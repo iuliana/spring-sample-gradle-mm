@@ -1,11 +1,11 @@
 dependencies {
-    compile libs.slf4jApi, libs.slf4jJcl, libs.log4j,
-            libs.hibernateEhcache, libs.hibernateEm, libs.hibernateCore, libs.hibernateValidator,
-            libs.springJdbc, libs.springOrm, libs.springContextSupport,
-            libs.dbcp, libs.postgres, libs.h2
+    compile misc.slf4jApi, misc.slf4jJcl, misc.log4j,
+            hibernate.ehcache, hibernate.em, hibernate.core, hibernate.validator,
+            spring.jdbc, spring.orm, spring.contextSupport,
+            misc.dbcp, misc.postgres, misc.h2, misc.joda
 
-    runtime libs.sl4jLog4j
+    runtime misc.sl4jLog4j
 
-    testCompile libs.junit
-    testCompile libs.springTest
+    testCompile misc.junit
+    testCompile spring.test
 }

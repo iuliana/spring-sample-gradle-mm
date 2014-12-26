@@ -2,15 +2,15 @@ apply plugin: 'war'
 
 dependencies {
     compile project(':dao')
-    compile libs.slf4jApi, libs.slf4jJcl, libs.log4j,libs.hibernateValidator,
-            libs.springWebmvc, libs.springAop, libs.springWebflow,
-            libs.springSecurityWeb, libs.springSecurityTaglibs, libs.springSecurityConfig,
-            libs.jstl, libs.tilesJsp, libs.tilesReqApi
+    compile misc.slf4jApi, misc.slf4jJcl, misc.log4j,hibernate.validator,
+            spring.webmvc, spring.aop, spring.webflow,
+            spring.securityWeb, spring.securityTaglibs, spring.securityConfig,
+            misc.jstl, misc.tilesJsp, misc.tilesReqApi
 
-    runtime libs.sl4jLog4j
+    runtime misc.sl4jLog4j
 
     providedCompile 'org.apache.tomcat:tomcat-servlet-api:8.0.15'
 
-    testCompile libs.junit
-    testCompile libs.springTest
+    testCompile misc.junit
+    testCompile spring.test
 }
